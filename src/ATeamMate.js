@@ -1,12 +1,9 @@
 import React from 'react';
 
-function ATeamMate() {
+function ATeamMate(props) {
   return (
-    <div>
-      <h2>Johnny Boy (Product Manager)</h2>
-      {/* Add your component content here */}
-    </div>
-  );
+    <h2>{props.name}</h2>
+  )
 }
 
 export default ATeamMate;

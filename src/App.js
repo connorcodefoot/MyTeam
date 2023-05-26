@@ -1,14 +1,23 @@
 import React from 'react';
 import { useState } from 'react';
-import ATeamMate from './ATeamMate';
 import './App.css';
-import ChatInput from './ChatInput';
 import axios from 'axios';
+
+
+// Components
+import TeamList from './TeamList';
 import ChatThread from './ChatThread';
+import ChatInput from './ChatInput';
+
+
 
 function App() {
 
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([])
+  const [teammates, setTeammate] = useState({
+    selected: 'Marty',
+    all: ['Marty', 'Xiu', 'Jan', 'Tobias']
+  })
 
   function sendInputToAPI (input) {
   
@@ -27,7 +36,7 @@ function App() {
       setMessages((messages) => [...messages,
         {
           id: messages.length + 1,
-          user: 'Johnny Boy',
+          user: teammates.selected,
           text: response.data
         }]
         )
@@ -42,12 +51,9 @@ function App() {
   return (
     <div className="chat-app">
       <div className="chat-app__sidebar">
-        <ul className="chat-app__list">
-          <li className="chat-app__list-item">< ATeamMate /></li>
-          <li className="chat-app__list-item">User 2</li>
-          <li className="chat-app__list-item">User 3</li>
-          <li className="chat-app__list-item">User 4</li>
-        </ul>
+        <div className="chat-app__list">
+          <TeamList teammates={teammates} />
+        </div>
       </div>
       <div className="chat-app__chat-section">
         <div className="chat-app__chat-header">Chat Header</div>
