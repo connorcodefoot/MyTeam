@@ -4,11 +4,13 @@ import './App.css';
 import axios from 'axios';
 
 
+// Data
+import { teammateData } from './data/teammate-data';
+
 // Components
 import TeamList from './TeamList';
 import ChatThread from './ChatThread';
 import ChatInput from './ChatInput';
-
 
 
 function App() {
@@ -16,7 +18,7 @@ function App() {
   const [messages, setMessages] = useState([])
   const [teammates, setTeammate] = useState({
     selected: 'Marty',
-    all: ['Marty', 'Xiu', 'Jan', 'Tobias']
+    all: teammateData
   })
 
   function sendInputToAPI (input) {

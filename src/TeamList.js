@@ -5,8 +5,8 @@ function TeamList (props) {
   
   let teamList = props.teammates.all.map((teammate) => {
     return (
-    <div>
-    <ATeamMate name={teammate}/>
+    <div id={teammate.id}>
+    <ATeamMate name={teammate.name} title={teammate.title}/>
     </div>
     )
   })
