@@ -1,16 +1,16 @@
 import React from "react";
-import ATeamMate from "./ATeamMate";
+import TeamMate from "./TeamMate";
 
 function TeamList (props) {
   
   let teamList = props.teammates.all.map((teammate) => {
     return (
-    <div id={teammate.id}>
-    <ATeamMate name={teammate.name} title={teammate.title}/>
-    </div>
+    <li id={teammate.id} onClick={() => props.setTeammate(teammate.id)}>
+    <TeamMate name={teammate.name} title={teammate.title}/>
+    </li>
     )
   })
-  return <div>{teamList}</div>
+  return <ul>{teamList}</ul>
 }
 
 export default TeamList

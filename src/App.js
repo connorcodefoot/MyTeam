@@ -17,7 +17,7 @@ function App() {
 
   const [messages, setMessages] = useState([])
   const [teammates, setTeammate] = useState({
-    selected: 'Marty',
+    selected: teammateData[0].id,
     all: teammateData
   })
 
@@ -54,7 +54,7 @@ function App() {
     <div className="chat-app">
       <div className="chat-app__sidebar">
         <div className="chat-app__list">
-          <TeamList teammates={teammates} />
+          <TeamList teammates={teammates} setTeammate={setTeammate} />
         </div>
       </div>
       <div className="chat-app__chat-section">
