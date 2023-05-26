@@ -5,7 +5,7 @@ function TeamList (props) {
   
   let teamList = props.teammates.all.map((teammate) => {
     return (
-    <li id={teammate.id} onClick={() => props.setTeammate(teammate.id)}>
+    <li id={teammate.id} onClick={() => props.onChange(teammate.id)} className={props.teammates.selected === teammate.id ? 'selected' : ''}>
     <TeamMate name={teammate.name} title={teammate.title}/>
     </li>
     )
@@ -14,3 +14,5 @@ function TeamList (props) {
 }
 
 export default TeamList
+
+// props.setTeammate(teammate.id)

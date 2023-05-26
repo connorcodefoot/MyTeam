@@ -9,6 +9,10 @@
   padding: 20px;
 }
 
+.selected {
+  background-color: black;
+}
+
 .chat-app__list {
   list-style-type: none;
   padding: 0;
