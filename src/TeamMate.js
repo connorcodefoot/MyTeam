@@ -1,12 +1,12 @@
 import React from 'react';
 
-function ATeamMate(props) {
+function TeamMate(props) {
   return (
-    <div>
+    <>
     <h2>{props.name}</h2>
     <p>{props.title}</p>
-    </div>
+    </>
   )
 }
 
-export default ATeamMate;
+export default TeamMate;

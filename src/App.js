@@ -17,7 +17,7 @@ function App() {
 
   const [messages, setMessages] = useState([])
   const [teammates, setTeammate] = useState({
-    selected: 'Marty',
+    selected: teammateData[0].id,
     all: teammateData
   })
 
@@ -49,12 +49,22 @@ function App() {
     });
     console.log(messages)
   }
+  const selectTeammate = (id) => {
+    // Make a copy of the existing state
+    const newState = { ...teammates};
 
+    // Modify the desired part of the state
+    newState.selected = id;
+
+    // Set the updated state
+    setTeammate(newState);
+  };
+  
   return (
     <div className="chat-app">
       <div className="chat-app__sidebar">
         <div className="chat-app__list">
-          <TeamList teammates={teammates} />
+          <TeamList teammates={teammates} onChange={selectTeammate} />
         </div>
       </div>
       <div className="chat-app__chat-section">
