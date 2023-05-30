@@ -1,4 +1,5 @@
 import React from "react";
+import ChatInput from "./ChatInput";
 
 function ChatThread (props) {
 
@@ -10,7 +11,13 @@ function ChatThread (props) {
       )
     }
   );
-  return <ul>{message}</ul>
+  return (
+  <>
+  <ul>{message}</ul>
+  <ChatInput
+  onSave = {props.onSave} />
+  </>
+  )
 }
 
 export default ChatThread

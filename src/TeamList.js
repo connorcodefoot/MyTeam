@@ -10,7 +10,7 @@ function TeamList (props) {
     </li>
     )
   })
-  return <ul>{teamList}</ul>
+  return <ul >{teamList}</ul>
 }
 
 export default TeamList
