@@ -20,8 +20,6 @@ function App() {
 
 
   function sendInputToAPI (input) {
-
-    console.log(input)
   
     setMessages((messages) => [...messages,
       {
