@@ -4,8 +4,8 @@ import './App.css';
 import axios from 'axios';
 
 
-// Data
-import { teammateData } from './data/teammate-data';
+// Hooks
+import useApplicationData from './hooks/applicationData';
 
 // Components
 import TeamList from './TeamList';
@@ -15,11 +15,10 @@ import ChatInput from './ChatInput';
 
 function App() {
 
+  const { teammates, setTeammate } = useApplicationData()
+
   const [messages, setMessages] = useState([])
-  const [teammates, setTeammate] = useState({
-    selected: teammateData[0].id,
-    all: teammateData
-  })
+
 
   function sendInputToAPI (input) {
   
@@ -31,7 +30,7 @@ function App() {
       }]
     )
   
-    axios.post("/api/new-input", {
+    axios.post("/api/inputs/new-input", {
       data: input
     })
     .then(response => {
@@ -42,29 +41,17 @@ function App() {
           text: response.data
         }]
         )
-        console.log(messages)
       })
     .catch(error => {
       console.error(error);
     });
-    console.log(messages)
   }
-  const selectTeammate = (id) => {
-    // Make a copy of the existing state
-    const newState = { ...teammates};
-
-    // Modify the desired part of the state
-    newState.selected = id;
-
-    // Set the updated state
-    setTeammate(newState);
-  };
   
   return (
     <div className="chat-app">
       <div className="chat-app__sidebar">
         <div className="chat-app__list">
-          <TeamList teammates={teammates} onChange={selectTeammate} />
+          <TeamList teammates={teammates} onChange={setTeammate} />
         </div>
       </div>
       <div className="chat-app__chat-section">
