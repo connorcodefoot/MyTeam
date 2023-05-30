@@ -13,7 +13,7 @@
   background-color: lightblue
 }
 
-.chat-app__list {
+.chat-app__list ul{
   list-style-type: none;
   padding: 0;
   margin: 0;
@@ -52,6 +52,7 @@
 .chat-app__message {
   margin-bottom: 20px;
 }
+
 
 /* Responsive Styles */
 

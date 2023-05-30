@@ -10,7 +10,6 @@ import useApplicationData from './hooks/applicationData';
 // Components
 import TeamList from './TeamList';
 import ChatThread from './ChatThread';
-import ChatInput from './ChatInput';
 
 
 function App() {
@@ -21,6 +20,8 @@ function App() {
 
 
   function sendInputToAPI (input) {
+
+    console.log(input)
   
     setMessages((messages) => [...messages,
       {
@@ -37,7 +38,7 @@ function App() {
       setMessages((messages) => [...messages,
         {
           id: messages.length + 1,
-          user: teammates.selected,
+          user: teammates.all[teammates.selected].name,
           text: response.data
         }]
         )
@@ -55,14 +56,9 @@ function App() {
         </div>
       </div>
       <div className="chat-app__chat-section">
-        <div className="chat-app__chat-header">Chat Header</div>
         <div className="chat-app__chat-content">
           < ChatThread 
           messages = {messages} 
-          />
-        </div>
-        <div className="chat-input">
-          < ChatInput
           onSave = {sendInputToAPI}
           />
         </div>
