@@ -6,7 +6,6 @@ function ChatInput (props) {
   const [inputValue, setInputValue] = useState('');
 
   function handleInputChange (event) {
-    console.log(event.target.value)
     setInputValue(event.target.value);
   };
 
