@@ -6,7 +6,16 @@ import { useState } from "react";
 export default function useApplicationData () {
 
   const setTeammate = (id) => {
-    setState({...teammates, selected: id})}
+
+    Promise.all([
+      axios.post('/api/conversations/new', { data: id})
+    ])
+      .then((res) => {
+        console.log(res)
+      })
+
+    setState({...teammates, selected: id})
+  }
 
   const [teammates, setState] = useState({
     selected: 0,
