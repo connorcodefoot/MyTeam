@@ -1,8 +1,8 @@
+// Imports
 import React from 'react';
 import { useState } from 'react';
 import './App.css';
 import axios from 'axios';
-
 
 // Hooks
 import useApplicationData from './hooks/applicationData';
@@ -14,6 +14,7 @@ import ChatThread from './ChatThread';
 
 function App() {
 
+  // Create and set state to data from BE
   const { teammates, setTeammate } = useApplicationData()
 
   const [messages, setMessages] = useState([])
