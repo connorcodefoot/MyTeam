@@ -3,34 +3,18 @@ import React from "react";
 import axios from "axios";
 import { useState } from "react";
 
-export default function useApplicationData () {
+export default function useApplicationData() {
 
- const [state, setState] = useState({
-  teammateSelectedID: null,
-  teammates: [],
-  conversationID: null,
- })
+    // Set initial state
+  const [state, setState] = useState({
+    teammateSelectedID: null,
+    teammates: [],
+    conversationID: null,
+    conversations: [],
+    messages: []
+  });
 
-  const setTeammate = (id) => { 
-    setState({...state, teammateSelectedID: id })
-    setConversation(id)
-  }
-
-  const setConversation = (id) => {
-
-    Promise.all([
-      axios.post('/api/conversations/new', { data: id})
-    ])
-      .then((res) => {
-        const conversationID = res[0].data
-        console.log(conversationID)
-        return conversationID
-      })
-      .then((conversationID) =>
-        setState({...state, conversationID}))
-  }
-
-    // Get intial data from API
+    // Get teammates from API
     useEffect(() => {
 
       Promise.all([
@@ -38,17 +22,64 @@ export default function useApplicationData () {
       ])
         .then((res) => {
           setState({
-            teammateSelectedID: res[0].data[0],
+            ...state,
             teammates: res[0].data
-          });
+          })
         });
     }, []);
+
+  const setTeammate = (id) => {
+
+    Promise.all([
+      axios.post('/api/conversations/new', { data: id })
+    ])
+      .then((res) => {
+        setState({ ...state, teammateSelectedID: id, conversationID: res[0].data });
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  };
+
+  const newMessage = (input, conversationID) => {
+  
+      const messageInput = {
+        id: state.messages.length + 1,
+        conversationID,
+        user: 'You',
+        text: input
+      }
+
+    const stateCopy = {...state}
+    stateCopy.messages.push(messageInput)
+
+    const data = {
+      conversationID,
+      input
+    }
+  
+    axios.post("/api/inputs/new-input", data)
+    .then(response => {
+      const messageResponse = 
+        {
+          id: state.messages.length + 1,
+          conversationID,
+          user: state.teammates[state.teammateSelectedID].name,
+          text: response.data
+        }
+      const stateCopy = {...state}
+      stateCopy.messages.push(messageResponse)
+      })
+    .catch(error => {
+      console.error(error);
+    });
+  }
 
   return {
     state,
     setState,
-    setConversation,
     setTeammate,
-  }
+    newMessage
+  };
 
 }
