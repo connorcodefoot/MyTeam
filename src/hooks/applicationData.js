@@ -5,28 +5,27 @@ import { useState } from "react";
 
 export default function useApplicationData() {
 
-    // Set initial state
+  // Set initial state
   const [state, setState] = useState({
     teammateSelectedID: null,
     teammates: [],
-    conversationID: null,
-    conversations: [],
-    messages: []
+    conversationSelectedID: null,
+    conversations: []
   });
 
-    // Get teammates from API
-    useEffect(() => {
+  // Get teammates from API
+  useEffect(() => {
 
-      Promise.all([
-        axios.get('/api/teammates'),
-      ])
-        .then((res) => {
-          setState({
-            ...state,
-            teammates: res[0].data
-          })
+    Promise.all([
+      axios.get('/api/teammates'),
+    ])
+      .then((res) => {
+        setState({
+          ...state,
+          teammates: res[0].data
         });
-    }, []);
+      });
+  }, []);
 
   const setTeammate = (id) => {
 
@@ -34,46 +33,52 @@ export default function useApplicationData() {
       axios.post('/api/conversations/new', { data: id })
     ])
       .then((res) => {
-        setState({ ...state, teammateSelectedID: id, conversationID: res[0].data });
+        setState({
+          ...state,
+          teammateSelectedID: id,
+          conversationSelectedID: res[0].data
+        });
       })
       .catch(err => {
-        console.log(err)
-      })
+        console.log(err);
+      });
   };
 
   const newMessage = (input, conversationID) => {
-  
-      const messageInput = {
-        id: state.messages.length + 1,
-        conversationID,
-        user: 'You',
-        text: input
-      }
 
-    const stateCopy = {...state}
-    stateCopy.messages.push(messageInput)
+    // New conversation object
+    const conversation = {
+      conversationID: state.conversationSelectedID,
+      messages: []
+    };
+
+    const messageInput = {
+      teammate: 'You',
+      text: input
+    };
 
     const data = {
       conversationID,
       input
-    }
-  
+    };
+
     axios.post("/api/inputs/new-input", data)
     .then(response => {
-      const messageResponse = 
-        {
-          id: state.messages.length + 1,
-          conversationID,
-          user: state.teammates[state.teammateSelectedID].name,
-          text: response.data
-        }
-      const stateCopy = {...state}
-      stateCopy.messages.push(messageResponse)
-      })
+      const messageResponse =
+      {
+        teammate: state.teammates[state.teammateSelectedID].name,
+        text: response.data
+      };
+      conversation.messages.push(messageInput, messageResponse)
+      const stateCopy = { ...state };
+      stateCopy.conversations.push(conversation)
+      setState(stateCopy)
+      console.log(state)
+    })
     .catch(error => {
       console.error(error);
     });
-  }
+  };
 
   return {
     state,
