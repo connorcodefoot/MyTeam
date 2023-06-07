@@ -3,7 +3,7 @@ import ChatInput from "./ChatInput";
 
 function ChatThread (props) {
 
-    const message = props.messages.map(m => {
+    const messages = props.messages.map(m => {
       return (
       <div key={m.id}>
         <div>{m.user}: {m.text}</div>
@@ -13,9 +13,11 @@ function ChatThread (props) {
   );
   return (
   <>
-  <ul>{message}</ul>
+  <ul>{messages}</ul>
   <ChatInput
-  onSave = {props.onSave} />
+  onSave = {props.onSave} 
+  conversationID = {props.conversationID}
+  />
   </>
   )
 }

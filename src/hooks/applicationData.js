@@ -3,42 +3,83 @@ import React from "react";
 import axios from "axios";
 import { useState } from "react";
 
-export default function useApplicationData () {
+export default function useApplicationData() {
+
+    // Set initial state
+  const [state, setState] = useState({
+    teammateSelectedID: null,
+    teammates: [],
+    conversationID: null,
+    conversations: [],
+    messages: []
+  });
+
+    // Get teammates from API
+    useEffect(() => {
+
+      Promise.all([
+        axios.get('/api/teammates'),
+      ])
+        .then((res) => {
+          setState({
+            ...state,
+            teammates: res[0].data
+          })
+        });
+    }, []);
 
   const setTeammate = (id) => {
 
     Promise.all([
-      axios.post('/api/conversations/new', { data: id})
+      axios.post('/api/conversations/new', { data: id })
     ])
       .then((res) => {
-        console.log(res)
+        setState({ ...state, teammateSelectedID: id, conversationID: res[0].data });
       })
+      .catch(err => {
+        console.log(err)
+      })
+  };
 
-    setState({...teammates, selected: id})
+  const newMessage = (input, conversationID) => {
+  
+      const messageInput = {
+        id: state.messages.length + 1,
+        conversationID,
+        user: 'You',
+        text: input
+      }
+
+    const stateCopy = {...state}
+    stateCopy.messages.push(messageInput)
+
+    const data = {
+      conversationID,
+      input
+    }
+  
+    axios.post("/api/inputs/new-input", data)
+    .then(response => {
+      const messageResponse = 
+        {
+          id: state.messages.length + 1,
+          conversationID,
+          user: state.teammates[state.teammateSelectedID].name,
+          text: response.data
+        }
+      const stateCopy = {...state}
+      stateCopy.messages.push(messageResponse)
+      })
+    .catch(error => {
+      console.error(error);
+    });
   }
-
-  const [teammates, setState] = useState({
-    selected: 0,
-    all: []
-  })
-
-    // Get intial data from API
-    useEffect(() => {
-
-      Promise.all([
-        axios.get('/api/teammates')
-      ])
-        .then((res) => {
-          setState({
-            selected: res[0].data[0],
-            all: res[0].data
-          });
-        });
-    }, []);
 
   return {
-    teammates,
-    setTeammate
-  }
+    state,
+    setState,
+    setTeammate,
+    newMessage
+  };
 
 }
