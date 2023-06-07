@@ -10,7 +10,7 @@ function ChatInput (props) {
   };
 
   function submit () {
-    props.onSave(inputValue)
+    props.onSave(inputValue, props.conversationID)
   }
 
   return (
