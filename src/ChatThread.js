@@ -5,8 +5,8 @@ function ChatThread (props) {
 
     const messages = props.messages.map(m => {
       return (
-      <div key={m.id}>
-        <div>{m.user}: {m.text}</div>
+      <div>
+        <div>{m.teammate}: {m.text}</div>
       </div>
       )
     }
@@ -16,7 +16,7 @@ function ChatThread (props) {
   <ul>{messages}</ul>
   <ChatInput
   onSave = {props.onSave} 
-  conversationID = {props.conversationID}
+  conversationSelectedID = {props.conversationSelectedID}
   />
   </>
   )
