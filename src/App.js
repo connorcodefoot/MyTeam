@@ -14,38 +14,8 @@ import ChatThread from './ChatThread';
 
 function App() {
 
-  // Create and set state to data from BE
-  const { state, setState, setTeammate, setConversation} = useApplicationData()
-
-  // const [messages, setMessages] = useState([])
-
-
-  // function sendInputToAPI (input) {
-  
-  //   setMessages((messages) => [...messages,
-  //     {
-  //       id: messages.length + 1,
-  //       user: 'You',
-  //       text: input
-  //     }]
-  //   )
-  
-  //   axios.post("/api/inputs/new-input", {
-  //     data: input
-  //   })
-  //   .then(response => {
-  //     setMessages((messages) => [...messages,
-  //       {
-  //         id: messages.length + 1,
-  //         user: state.teammates[state.teammateSelectedID].name,
-  //         text: response.data
-  //       }]
-  //       )
-  //     })
-  //   .catch(error => {
-  //     console.error(error);
-  //   });
-  // }
+// Client side application. Controller for state and initial data is imported from useApplicationData hook
+const { state, setState, setTeammate, newMessage } = useApplicationData()
   
   return (
     <div className="chat-app">
@@ -56,10 +26,11 @@ function App() {
       </div>
       <div className="chat-app__chat-section">
         <div className="chat-app__chat-content">
-          {/* < ChatThread 
-          // messages = {messages} 
-          // onSave = {sendInputToAPI}
-          /> */}
+          < ChatThread 
+          conversationID = {state.conversationID}
+          onSave = {newMessage}
+          messages = {state.messages}
+          />
         </div>
       </div>
     </div>
