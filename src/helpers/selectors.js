@@ -11,6 +11,5 @@ export function getMessages (state, conversationID) {
 
     }
   })
-  console.log(messages)
   return messages
 }
