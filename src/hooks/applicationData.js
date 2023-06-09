@@ -7,6 +7,7 @@ export default function useApplicationData() {
 
   // Set initial state
   const [state, setState] = useState({
+    newTeammate: false, 
     teammateSelectedID: null,
     teammates: [],
     conversationSelectedID: null,
@@ -38,6 +39,24 @@ export default function useApplicationData() {
           teammateSelectedID: id,
           conversationSelectedID: res[0].data
         });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+
+  const newTeammate = (teammate) => {
+
+    Promise.all([
+      axios.post('/api/teammates/new', teammate)
+    ])
+      .then((res) => {
+        setState({
+          ...state,
+          newTeammate: false, 
+        });
+        setTeammate(res[0].data[0])
       })
       .catch(err => {
         console.log(err);
@@ -84,7 +103,8 @@ export default function useApplicationData() {
     state,
     setState,
     setTeammate,
-    newMessage
+    newMessage,
+    newTeammate
   };
 
 }
