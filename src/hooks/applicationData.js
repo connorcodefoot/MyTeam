@@ -14,8 +14,12 @@ export default function useApplicationData() {
     conversations: []
   });
 
-  // Get teammates from API
+  // Get teammates from API, including trigger for rerunning
+  const [triggerEffect, setTriggerEffect] = useState(false);
+
   useEffect(() => {
+
+    console.log('Use Effect Runs')
 
     Promise.all([
       axios.get('/api/teammates'),
@@ -26,18 +30,23 @@ export default function useApplicationData() {
           teammates: res[0].data
         });
       });
-  }, []);
+  }, [triggerEffect]);
 
-  const setTeammate = (id) => {
+
+  const setTeammate = (teammateID) => {
 
     Promise.all([
-      axios.post('/api/conversations/new', { data: id })
+      axios.post('/api/conversations/new', { data: teammateID })
     ])
       .then((res) => {
+
+        setTriggerEffect(triggerEffect === true ? false : true)
+
         setState({
           ...state,
-          teammateSelectedID: id,
-          conversationSelectedID: res[0].data
+          teammateSelectedID: teammateID,
+          conversationSelectedID: res[0].data,
+          newTeammate: false, 
         });
       })
       .catch(err => {
@@ -45,18 +54,14 @@ export default function useApplicationData() {
       });
   };
 
-
   const newTeammate = (teammate) => {
 
     Promise.all([
       axios.post('/api/teammates/new', teammate)
     ])
       .then((res) => {
-        setState({
-          ...state,
-          newTeammate: false, 
-        });
-        setTeammate(res[0].data[0])
+        const teammateID = res[0].data
+        setTeammate(teammateID)
       })
       .catch(err => {
         console.log(err);
@@ -85,14 +90,13 @@ export default function useApplicationData() {
     .then(response => {
       const messageResponse =
       {
-        teammate: state.teammates[state.teammateSelectedID].name,
+        // teammate: state.teammates[state.teammateSelectedID].name,
         text: response.data
       };
       conversation.messages.push(messageInput, messageResponse)
       const stateCopy = { ...state };
       stateCopy.conversations.push(conversation)
       setState(stateCopy)
-      console.log(state)
     })
     .catch(error => {
       console.error(error);
