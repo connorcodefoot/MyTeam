@@ -59,10 +59,11 @@ This project is in progress. Using an instant messaging model, MyTeam enables a 
 2. Within backend directory, initiate a virtual environment ```python -m venv /path/to/new/virtual/environment```
 3. Install dependencies for frontend and backend using npm install and pip install respectively
 4. For backend, create new .env file with the following:
-5. 
-OPENAI_API_KEY = 
-GOOGLE_CSE_ID = 
-GOOGLE_API_KEY = 
+```
+OPENAI_API_KEY = YOUR_KEY
+GOOGLE_CSE_ID = YOUR_ID
+GOOGLE_API_KEY = YOUR_KEY
+``` 
 
 To Create an OpenAI API Key https://platform.openai.com/
 To [create a custom google search engine and retrieve CSE and API](https://stackoverflow.com/questions/37083058/programmatically-searching-google-in-python-using-custom-search)
