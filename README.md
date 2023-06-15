@@ -34,6 +34,12 @@
       <a href="#installation">Getting Started</a></li>
     </li>
   </ol>
+    <li>
+      <a href="#roadmap">Roadmap</a>
+    <li>
+      <li>
+      <a href="#contact">Contact</a>
+    <li>
 </details>
 
 <!-- ABOUT THE PROJECT -->
