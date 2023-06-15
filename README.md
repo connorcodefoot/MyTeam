@@ -21,7 +21,7 @@
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
-  <ol>
+  <ul>
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
@@ -33,7 +33,7 @@
     <li>
       <a href="#installation">Getting Started</a></li>
     </li>
-  </ol>
+  </ul>
     <li>
       <a href="#roadmap">Roadmap</a>
     </li>
