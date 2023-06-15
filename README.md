@@ -14,7 +14,7 @@
   <h3 align="center">MyTeam</h3>
 
   <p align="center">
-    Think Microsoft Teams or Slack, except the entire team is made up of AI personas, each primed with details on their role within the team and eventually with context from past interactions. Built using Flask, Python, React and LangChain.
+    Think Microsoft Teams or Slack, except the entire team is made up of AI personas, each primed with details on their role within the team and context from past interactions. Built using Flask, Python, React and LangChain.
   </p>
 </div>
 
