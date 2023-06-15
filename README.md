@@ -36,10 +36,10 @@
   </ol>
     <li>
       <a href="#roadmap">Roadmap</a>
-    <li>
+    </li>
       <li>
       <a href="#contact">Contact</a>
-    <li>
+    </li>
 </details>
 
 <!-- ABOUT THE PROJECT -->
