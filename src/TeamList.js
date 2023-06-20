@@ -15,4 +15,3 @@ function TeamList (props) {
 
 export default TeamList
 
-// props.setTeammate(teammate.id)

@@ -39,7 +39,7 @@ const messages = getMessages(state, state.conversationSelectedID)
           < ChatThread 
           conversationSelectedID = {state.conversationSelectedID}
           onSave = {newMessage}
-          messages = {messages}
+          messages = {getMessages(state, state.conversationSelectedID)}
           />
         )}
                 
