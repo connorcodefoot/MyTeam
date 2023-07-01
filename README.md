@@ -90,7 +90,7 @@ To [create a custom google search engine and retrieve CSE and API](https://stack
 
 - [X] Add option to create new personas
 - [ ] Integrate supabase
-- [ ] Cleanup UI
+- [X] Cleanup UI
 - [ ] Add users table to DB
 - [ ] Add auth
 - [ ] Lite deploy to friends and fam
