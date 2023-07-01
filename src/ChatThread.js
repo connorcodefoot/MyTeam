@@ -5,19 +5,24 @@ function ChatThread (props) {
 
     const messages = props.messages.map(m => {
       return (
-      <div>
-        <div>{m.teammate}: {m.text}</div>
+      <div class="chat-message">
+        <div>{m.teammate}: {m.message}</div>
       </div>
       )
     }
   );
   return (
   <>
+  <div className="message-list">
   <ul>{messages}</ul>
+  </div>
+  <div className = "new-message-container">
   <ChatInput
-  onSave = {props.onSave} 
+  onSubmit = {props.onSubmit} 
+  onSubmitAudio = {props.onSubmitAudio}
   conversationSelectedID = {props.conversationSelectedID}
   />
+  </div>
   </>
   )
 }
