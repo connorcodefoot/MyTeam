@@ -35,7 +35,7 @@ export default function useApplicationData() {
 
   const setTeammate = (teammateID) => {
 
-    console.log(state)
+    console.log(state);
 
     // Check whether there is a conversation already for this teammate, create one if there is not
     for (let i = 0; i < state.conversations.length; i++) {
@@ -48,12 +48,10 @@ export default function useApplicationData() {
           conversationSelectedID: state.conversations[i].conversationID,
         });
       }
-    } 
+    }
   };
 
   const newConversation = (teammateID) => {
-
-    console.log('newConversation runs');
 
     Promise.all([
       axios.post('/api/conversations/new', { data: teammateID })
@@ -67,7 +65,7 @@ export default function useApplicationData() {
         const stateCopy = {
           ...state,
           teammateSelectedID: teammateID,
-          conversationSelectedID: res[0].data, 
+          conversationSelectedID: res[0].data,
           newTeammate: false,
         };
 
@@ -80,7 +78,7 @@ export default function useApplicationData() {
 
         stateCopy.conversations.push(conversation);
 
-        setState(stateCopy)
+        setState(stateCopy);
       })
       .catch(err => {
         console.log(err);
@@ -103,26 +101,73 @@ export default function useApplicationData() {
 
   const newMessage = (input, conversationID) => {
 
-    const conversation = state.conversations.map((convo) => {
-      
-      if (convo.conversationID === conversationID) {
-        return convo
-      }
-    })
+    // Retrieve conversation
+    let conversationObject = {};
 
+    state.conversations.forEach((convo) => {
+
+      if (convo.conversationID === conversationID) {
+        conversationObject = convo;
+      }
+    });
+
+    // Create message input object
     const messageInput = {
       teammate: 'You',
-      text: input
+      message: input
     };
 
-    conversation[0].messages.push(messageInput)
+    // Add message to conversationObject
+    conversationObject.messages.push(messageInput);
 
+
+    // Package data for post to API
     const data = {
       conversationID,
       input
     };
 
-    axios.post("/api/inputs/new-input", data)
+    axios.post("/api/messages/new-message-text", data)
+      .then(response => {
+        const messageResponse =
+        {
+          teammate: state.teammates[state.teammateSelectedID].name,
+          message: response.data
+        };
+        const stateCopy = { ...state };
+        conversationObject.messages.push(messageResponse);
+        setState(stateCopy);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
+  const newMessageAudio = (formData, conversationID) => {
+
+    // Retrieve conversation
+    let conversationObject = {};
+
+    state.conversations.forEach((convo) => {
+
+      if (convo.conversationID === conversationID) {
+        conversationObject = convo;
+      }
+    });
+
+    // Create message input object
+    const messageInput = {
+      teammate: 'You',
+      input: 'Recording Sent'
+    };
+
+    // Add message to conversationObject
+    conversationObject.messages.push(messageInput);
+
+
+    formData.append('conversationID', conversationID);
+
+    axios.post('api/messages/new-message-audio', formData)
       .then(response => {
         const messageResponse =
         {
@@ -130,7 +175,7 @@ export default function useApplicationData() {
           text: response.data
         };
         const stateCopy = { ...state };
-        conversation[0].messages.push(messageResponse);
+        conversationObject.messages.push(messageResponse);
         setState(stateCopy);
       })
       .catch(error => {
@@ -143,7 +188,8 @@ export default function useApplicationData() {
     setState,
     setTeammate,
     newMessage,
-    newTeammate
+    newTeammate,
+    newMessageAudio
   };
 
 }

@@ -1,6 +1,6 @@
 // Imports
 import React from 'react';
-import './App.css';
+import './styles/App.scss';
 
 // Hooks
 import useApplicationData from './hooks/applicationData';
@@ -18,34 +18,35 @@ import NewTeammateForm from './NewTeammateForm';
 function App() {
 
 // Client side application. Controller for state and initial data is imported from useApplicationData hook
-const { state, setState, setTeammate, newMessage, newTeammate } = useApplicationData()
+const { state, setState, setTeammate, newMessage, newMessageAudio, newTeammate } = useApplicationData()
 
 // Retrieve messages for conversation
-const messages = getMessages(state, state.conversationSelectedID)
 
   return (
-    <div className="chat-app">
-      <div className="chat-app__sidebar">
-        <div className="chat-app__list">
-          <TeamList teammates={state.teammates} teammateSelectedID={state.teammateSelectedID} onChange={setTeammate} />
-        </div>
-        <div className = "new-teammate">
+    <div className="app-main">
+      <div className="sidebar">
+        <div className = "new-teammate-section">
           <NewTeammateButton onClick={() => setState({...state, newTeammate: true})}/>
         </div>
+        <div className="teammates-list">
+          <TeamList teammates={state.teammates} teammateSelectedID={state.teammateSelectedID} onChange={setTeammate} />
+        </div>
       </div>
-      <div className="chat-app__chat-section">
-        <div className="chat-app__chat-content">
-        {(!state.newTeammate) && (
-          < ChatThread 
-          conversationSelectedID = {state.conversationSelectedID}
-          onSave = {newMessage}
-          messages = {getMessages(state, state.conversationSelectedID)}
-          />
-        )}
-                
+      <div className="primary-container">
+      <div className="new-teammate-form">
         {(state.newTeammate) && (
         < NewTeammateForm
         onSave={newTeammate} />
+        )}
+        </div>
+        <div className="chat-thread">
+        {(!state.newTeammate) && (
+          < ChatThread 
+          conversationSelectedID = {state.conversationSelectedID}
+          onSubmit = {newMessage}
+          onSubmitAudio ={newMessageAudio}
+          messages = {getMessages(state, state.conversationSelectedID)}
+          />
         )}
         </div>
       </div>
