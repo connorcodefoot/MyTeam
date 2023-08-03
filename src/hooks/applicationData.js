@@ -91,6 +91,7 @@ export default function useApplicationData() {
       axios.post('/api/teammates/new', teammate)
     ])
       .then((res) => {
+        console.log(res)
         const teammateID = res[0].data;
         newConversation(teammateID);
       })
