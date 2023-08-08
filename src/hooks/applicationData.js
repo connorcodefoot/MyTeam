@@ -25,6 +25,7 @@ export default function useApplicationData() {
       axios.get('/api/teammates'),
     ])
       .then((res) => {
+        console.log(res)
         setState({
           ...state,
           teammates: res[0].data
@@ -57,9 +58,10 @@ export default function useApplicationData() {
       axios.post('/api/conversations/new', { data: teammateID })
     ])
       .then((res) => {
-
         // Refresh teammate list to show new teammate
         setTriggerEffect(triggerEffect === true ? false : true);
+        console.log('here we are', 'and trigger is set to:', triggerEffect)
+
 
         // Copy state and add new items
         const stateCopy = {
