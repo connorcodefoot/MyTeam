@@ -6,7 +6,7 @@ function ChatThread (props) {
     const messages = props.messages.map(m => {
       return (
       <div class="chat-message">
-        <div>{m.teammate}: {m.message}</div>
+        <div>{m.from}: {m.message}</div>
       </div>
       )
     }

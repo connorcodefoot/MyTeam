@@ -20,6 +20,7 @@ function App() {
 // Client side application. Controller for state and initial data is imported from useApplicationData hook
 const { state, setState, setTeammate, newMessage, newMessageAudio, newTeammate } = useApplicationData()
 
+
 // Retrieve messages for conversation
 
   return (
