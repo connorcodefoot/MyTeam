@@ -24,6 +24,7 @@ $background-color_5: lightblue;
 	display: flex;
 	flex-direction: column;
 	background-color: $background-color_1;
+	overflow-x: scroll;
 }
 
 .new-teammate-section {
