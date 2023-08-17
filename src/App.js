@@ -27,10 +27,14 @@ const { state, setState, setTeammate, newMessage, newMessageAudio, newTeammate }
     <div className="app-main">
       <div className="sidebar">
         <div className = "new-teammate-section">
-          <NewTeammateButton onClick={() => setState({...state, newTeammate: true})}/>
+          <NewTeammateButton 
+          onClick={() => setState({...state, newTeammate: true})}/>
         </div>
         <div className="teammates-list">
-          <TeamList teammates={state.teammates} teammateSelectedID={state.teammateSelectedID} onChange={setTeammate} />
+          <TeamList 
+          teammates={state.teammates} 
+          teammateSelectedID={state.teammateSelectedID} 
+          onChange={setTeammate} />
         </div>
       </div>
       <div className="primary-container">

@@ -54,7 +54,6 @@ export default function useApplicationData() {
     ])
       .then((res) => {        
         // Copy state and add new items
-        console.log(res)
         const conversation = res[0].data
         const stateCopy = {
           ...state,
@@ -74,15 +73,25 @@ export default function useApplicationData() {
 
   const newTeammate = (teammate) => {
 
-    console.log('this is state', state)
-
     Promise.all([
       axios.post('/api/teammates/new', teammate)
     ])
       .then((res) => {
-        console.log(res)
-        const teammateID = res[0].data;
-        newConversation(teammateID);
+        const teammate = res[0].data;
+
+                const stateCopy = {
+          ...state,
+          teammateSelectedID: teammate.id,
+          newTeammate: false,
+        };  
+
+        stateCopy.teammates.push(teammate);
+
+        setState(stateCopy);
+
+        // Create a newConversation using the teammate
+        newConversation(teammate.id);
+
       })
       .catch(err => { 
         console.log(err);
@@ -91,60 +100,50 @@ export default function useApplicationData() {
 
   const newMessage = (input, conversationID) => {
 
+    // Add message to conversation
     const message = {
       conversationID,
-      input
+      message: input,
+      from: 'You'
     }
 
+    const stateCopy = {...state}
+
+    let conversation
+
+    stateCopy.conversations.forEach(c => {
+      if (c.id === conversationID) {
+        return conversation = c
+      }
+    })
+
+    conversation.messages.push(message)
+
+    setState(stateCopy)
+
+    // Post message to API to retrieve response from OpenAI
     axios.post("/api/messages/new-message-text", message)
       .then(res => {
-        
-        
+
+        const stateCopyOutput = {...state}
+        let conversation
+
+        stateCopyOutput.conversations.forEach(c => {
+          if (c.id === conversationID) {
+            return conversation = c
+          }
+        })
+        const messageResponse = res.data;
+        conversation.messages.push(messageResponse)
+
+        return stateCopyOutput
       })
-      .catch(error => {
-        console.error(error);
-      });
+      .then(stateCopyOutput => {
+        setState(stateCopyOutput)
+      })
+
+
   }
-
-  // const newMessageAudio = (formData, conversationID) => {
-
-  //   // Retrieve conversation
-  //   let conversationObject = {};
-
-  //   state.conversations.forEach((convo) => {
-
-  //     if (convo.conversationID === conversationID) {
-  //       conversationObject = convo;
-  //     }
-  //   });
-
-  //   // Create message input object
-  //   const messageInput = {
-  //     teammate: 'You',
-  //     input: 'Recording Sent'
-  //   };
-
-  //   // Add message to conversationObject
-  //   conversationObject.messages.push(messageInput);
-
-
-  //   formData.append('conversationID', conversationID);
-
-  //   axios.post('api/messages/new-message-audio', formData)
-  //     .then(response => {
-  //       const messageResponse =
-  //       {
-  //         // teammate: state.teammates[state.teammateSelectedID].name,
-  //         text: response.data
-  //       };
-  //       const stateCopy = { ...state };
-  //       conversationObject.messages.push(messageResponse);
-  //       setState(stateCopy);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  // };
 
   return {
     state,
