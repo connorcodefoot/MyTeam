@@ -28,10 +28,19 @@ export default function useApplicationData() {
     })
   }, [])
 
+  const signIn = (email, password) => {
+
+    console.log('sign in called:', email, password)
+
+    Promise.all([
+      axios.post('/api/token', {email, password})
+    ])
+    .then((res) => {
+      console.log(res)
+    })
+  }
 
   const setTeammate = (teammateID) => {
-
-    console.log(teammateID)
 
     // Check whether there is a conversation already for this teammate, create one if there is not
     for (let i = 0; i < state.conversations.length; i++) {
@@ -151,6 +160,7 @@ export default function useApplicationData() {
     setTeammate,
     newMessage,
     newTeammate,
+    signIn
     // newMessageAudio,
   };
 

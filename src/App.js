@@ -13,18 +13,23 @@ import TeamList from './TeamList';
 import ChatThread from './ChatThread';
 import NewTeammateButton from './NewTeammateButton';
 import NewTeammateForm from './NewTeammateForm';
+import SignIn from './SignIn';
 
 
 function App() {
 
 // Client side application. Controller for state and initial data is imported from useApplicationData hook
-const { state, setState, setTeammate, newMessage, newMessageAudio, newTeammate } = useApplicationData()
+const { state, setState, setTeammate, newMessage, newMessageAudio, newTeammate, signIn } = useApplicationData()
 
 
 // Retrieve messages for conversation
 
   return (
     <div className="app-main">
+      <div className="sign-in-form"> 
+      <SignIn
+      onSubmit={signIn} />
+      </div>
       <div className="sidebar">
         <div className = "new-teammate-section">
           <NewTeammateButton 

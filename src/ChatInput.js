@@ -43,49 +43,49 @@ function ChatInput(props) {
     setAudioInput(null);
     setAudioUrl('');
 
-    // Reset audio playback
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-    }
+    // // Reset audio playback
+    // if (audioRef.current) {
+    //   audioRef.current.pause();
+    //   audioRef.current.currentTime = 0;
+    // }
 
   };
 
-  const handleStartRecording = () => {
+  // const handleStartRecording = () => {
 
-    setAudioStatus('Recording');
+  //   setAudioStatus('Recording');
 
-    navigator.mediaDevices.getUserMedia({ audio: true })
-      .then((stream) => {
-        const mediaRecorder = new MediaRecorder(stream);
-        mediaRecorderRef.current = mediaRecorder;
-        mediaRecorder.start();
+  //   navigator.mediaDevices.getUserMedia({ audio: true })
+  //     .then((stream) => {
+  //       const mediaRecorder = new MediaRecorder(stream);
+  //       mediaRecorderRef.current = mediaRecorder;
+  //       mediaRecorder.start();
 
-        const chunks = [];
-        mediaRecorder.addEventListener('dataavailable', (e) => {
-          chunks.push(e.data);
-        });
+  //       const chunks = [];
+  //       mediaRecorder.addEventListener('dataavailable', (e) => {
+  //         chunks.push(e.data);
+  //       });
 
-        mediaRecorder.addEventListener('stop', () => {
-          const recordingBlob = new Blob(chunks, { type: 'audio/webm' });
-          const audioURL = URL.createObjectURL(recordingBlob);
-          setAudioInput(recordingBlob);
-          setAudioUrl(audioURL);
-        });
-        setAudio(true)
-      })
-      .catch((error) => {
-        console.error('Error accessing microphone:', error);
-      });
-  };
+  //       mediaRecorder.addEventListener('stop', () => {
+  //         const recordingBlob = new Blob(chunks, { type: 'audio/webm' });
+  //         const audioURL = URL.createObjectURL(recordingBlob);
+  //         setAudioInput(recordingBlob);
+  //         setAudioUrl(audioURL);
+  //       });
+  //       setAudio(true)
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error accessing microphone:', error);
+  //     });
+  // };
 
-  const handleStopRecording = () => {
-    if (mediaRecorderRef.current) {
-      mediaRecorderRef.current.stop();
-    }
-    setAudioStatus('Done');
-    setAudio(false)
-  };
+  // const handleStopRecording = () => {
+  //   if (mediaRecorderRef.current) {
+  //     mediaRecorderRef.current.stop();
+  //   }
+  //   setAudioStatus('Done');
+  //   setAudio(false)
+  // };
 
 
   return (
